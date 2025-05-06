@@ -1,8 +1,19 @@
 class Player:
-    VERSION = "call every time - added repsonses"
+    VERSION = "all in on pocket pair, bet on high card"
 
     def betRequest(self, game_state):
-        return self.call(game_state)
+        in_action = game_state['in_action']
+        us = game_state['players'][in_action]
+        high_cards = {"A","K","Q","J","10"}
+        if game_state['bet_index'] == 0:
+            if us["hole_cards"]["rank"][0] == us["hole_cards"]["rank"][1]:
+                return self.all_in(game_state)
+            if us["hole_cards"]["rank"][0] in high_cards or us["hole_cards"]["rank"][1] in high_cards:
+                return self.bet(game_state)
+            else:
+                return self.check()
+        else:
+            return self.call(game_state)
 
     @staticmethod
     def call(game_state):
