@@ -1,9 +1,12 @@
-
 class Player:
-    VERSION = "bet 1000"
+    VERSION = "call every time"
 
     def betRequest(self, game_state):
-        return 1000
+        in_action=game_state['in_action']
+        current_buy_in=game_state['current_buy_in']
+        players=game_state['players']
+
+        return current_buy_in - players[in_action]['bet']
 
     def showdown(self, game_state):
         pass
