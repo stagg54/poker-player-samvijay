@@ -4,8 +4,8 @@ class Player:
     def betRequest(self, game_state):
         in_action = game_state['in_action']
         us = game_state['players'][in_action]
-        high_cards = {"A","K","Q","J","10"}
-        if game_state['bet_index'] == 0:
+        high_cards = ["A","K","Q","J","10"]
+        if game_state['round'] == 0:
             if us["hole_cards"]["rank"][0] == us["hole_cards"]["rank"][1]:
                 return self.all_in(game_state)
             if us["hole_cards"]["rank"][0] in high_cards or us["hole_cards"]["rank"][1] in high_cards:
