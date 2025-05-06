@@ -18,10 +18,10 @@ class Player:
                 return self.check()
         else:
             print("not first round calling")
-            return self.call(game_state)
+            return self.match(game_state)
 
     @staticmethod
-    def call(game_state):
+    def match(game_state):
         in_action = game_state['in_action']
         current_buy_in = game_state['current_buy_in']
         players = game_state['players']
