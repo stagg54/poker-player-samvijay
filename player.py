@@ -8,7 +8,7 @@ class Player:
         high_cards = ["A","K","Q","J","10"]
         if game_state['round'] == 0:
             print("Round one")
-            if us["hole_cards"][0]["rank"] == us["hole_cards"][1]["rank"][1]:
+            if us["hole_cards"][0]["rank"] == us["hole_cards"][1]["rank"]:
                 print("pocket pair")
                 return self.all_in(game_state)
             if us["hole_cards"][0]["rank"] in high_cards or us["hole_cards"][1]["rank"] in high_cards:
