@@ -2,24 +2,31 @@ class Player:
     VERSION = "strategy 2"
 
     def betRequest(self, game_state):
+        print(game_state)
         print("got here")
         in_action = game_state['in_action']
-        us = game_state['players'][in_action]
+        print(game_state["players"])
+        us = game_state['players'][int(in_action)]
+        print(us)
         high_cards = ["A","K","Q","J","10"]
-        if game_state['round'] == 0:
-            print("Round one")
-            if us["hole_cards"][0]["rank"] == us["hole_cards"][1]["rank"]:
-                print("pocket pair")
-                return self.all_in(game_state)
-            if us["hole_cards"][0]["rank"] in high_cards or us["hole_cards"][1]["rank"] in high_cards:
-                print("high card")
-                return self.bet(game_state)
-            else:
-                print("neither")
-                return self.check()
-        else:
-            print("not first round calling")
-            return self.match(game_state)
+        hole1=us['hole_cards'][0]
+        hole2=us['hole_cards'][1]
+
+        match game_state["round"]:
+            case 0:
+               print("Round one")
+               if hole1["rank"] == hole2["rank"]:
+                   print("pocket pair")
+                   return self.all_in(game_state)
+               if hole1["rank"] in high_cards or hole2["rank"] in high_cards:
+                   print("high card")
+                   return self.bet(game_state)
+               else:
+                    print("neither")
+                    return self.check()
+            case _:
+                print("not first round calling")
+                return self.match(game_state)
 
     @staticmethod
     def match(game_state):
