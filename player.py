@@ -15,7 +15,7 @@ class Player:
         match game_state["round"]:
             case 0:
                print("Round one")
-               if hole1["rank"] == hole2["rank"]:
+               if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"]):
                    print("pocket pair")
                    return self.all_in(game_state)
                if hole1["rank"] in high_cards or hole2["rank"] in high_cards:
