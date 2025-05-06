@@ -1,16 +1,17 @@
 class Player:
-    VERSION = "all in on pocket pair, bet on high card"
+    VERSION = "strategy 2"
 
     def betRequest(self, game_state):
+        print("got here")
         in_action = game_state['in_action']
         us = game_state['players'][in_action]
         high_cards = ["A","K","Q","J","10"]
         if game_state['round'] == 0:
             print("Round one")
-            if us["hole_cards"]["rank"][0] == us["hole_cards"]["rank"][1]:
+            if us["hole_cards"][0]["rank"] == us["hole_cards"][1]["rank"][1]:
                 print("pocket pair")
                 return self.all_in(game_state)
-            if us["hole_cards"]["rank"][0] in high_cards or us["hole_cards"]["rank"][1] in high_cards:
+            if us["hole_cards"][0]["rank"] in high_cards or us["hole_cards"][1]["rank"] in high_cards:
                 print("high card")
                 return self.bet(game_state)
             else:
