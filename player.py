@@ -45,8 +45,18 @@ class Player:
             print(hand)
             ( result, _) = best_poker_hand(us['hole_cards'],game_state['community_cards'])
             rank = result[0]
+
+            # NEW: Get the best possible hand anyone could make from community + any hole cards
+            best_possible_rank = best_possible_hand_rank(game_state['community_cards'])
+
+            rank_difference = best_possible_rank - rank
+            if rank_difference > 3:
+                print(f"Hand difference too large ({rank_difference}), checking")
+                return self.check()
                 #match rank:
                 # SamVijay was disqualified for making an error: Failed to parse players response as non negative integer. Response was:
+
+
             if rank >= 7: #Full house or better
                 return self.all_in(game_state)
             elif rank >= 3: #Two pair
@@ -176,6 +186,24 @@ def best_poker_hand(hole_cards, community_cards):
     return best_rank, best_hand
 
 
+def best_possible_hand_rank(community_cards):
+    # Generate all possible hole cards (all combinations of 2 unseen cards)
+    all_ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+    all_suits = ['hearts', 'diamonds', 'clubs', 'spades']
+    deck = [{'rank': r, 'suit': s} for r in all_ranks for s in all_suits]
+
+    known_cards = community_cards
+    available_cards = [c for c in deck if c not in known_cards]
+
+    best_rank = (0, [])
+
+    for hole_combo in itertools.combinations(available_cards, 2):
+        hand_cards = list(hole_combo) + community_cards
+        for combo in itertools.combinations(hand_cards, 5):
+            current_rank = rank_poker_hand(combo)
+            if current_rank > best_rank:
+                best_rank = current_rank
+    return best_rank[0]
 
 
 
