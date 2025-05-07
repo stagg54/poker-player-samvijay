@@ -32,9 +32,11 @@ class Player:
                return self.match(game_state)
            else:
                COUNTER+=1
-           if hole1["rank"] in high_cards or hole2["rank"] in high_cards or (hole1["suit"] == hole2["suit"]) or  abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) <= 3:
+           if (hole1["suit"] == hole2["suit"]) or  ((abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) <= 4) and ( hole1["rank"] in high_cards or hole2["rank"] in high_cards)):
                print("high card or suited or ordered")
-               return self.bet(game_state, random.randint(0, 100))
+               return self.bet(game_state, 50)
+           if hole1["rank"] in high_cards or hole2["rank"]:
+               return self.bet(game_state)
            else:
                print("neither")
                return self.check()
