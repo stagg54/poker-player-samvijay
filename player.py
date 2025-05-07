@@ -11,7 +11,7 @@ class Player:
         us = game_state['players'][int(in_action)]
         print(us)
         all_cards = ["1","2","3","4","5","6","7","8","9","10","J","Q","K","A"]
-        high_cards = ["A","K","Q","J","10"]
+        high_cards = ["A","K","Q","J","10","9"]
 
         hole1=us['hole_cards'][0]
         hole2=us['hole_cards'][1]
