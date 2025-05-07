@@ -34,6 +34,7 @@ class Player:
                 print(hole2)
                 hand = [ hole1, hole2, game_state["community_cards"] ]
                 print(hand)
+                return self.check()
 
 
                 # Check if we have any pairs with the flop
@@ -82,4 +83,49 @@ class Player:
         pass
 
 
-def rank(hand):
+def rank_poker_hand(hand):
+    rank_values = {
+        '2': 2, '3': 3, '4': 4, '5': 5, '6': 6,
+        '7': 7, '8': 8, '9': 9, '10': 10,
+        'J': 11, 'Q': 12, 'K': 13, 'A': 14
+    }
+
+    ranks = sorted([rank_values[card['rank']] for card in hand], reverse=True)
+    suits = [card['suit'] for card in hand]
+
+    is_flush = len(set(suits)) == 1
+    is_straight = ranks == list(range(ranks[0], ranks[0] - 5, -1))
+    # Handle special case of low-Ace straight (A,2,3,4,5)
+    if ranks == [14, 5, 4, 3, 2]:
+        is_straight = True
+        ranks = [5, 4, 3, 2, 1]
+
+    from collections import Counter
+    rank_counts = Counter(ranks)
+    counts = sorted(rank_counts.values(), reverse=True)
+    unique_ranks = sorted(rank_counts.keys(), reverse=True)
+
+    if is_straight and is_flush and ranks[0] == 14:
+        return "Royal Flush"
+    elif is_straight and is_flush:
+        return "Straight Flush"
+    elif counts[0] == 4:
+        return "Four of a Kind"
+    elif counts[0] == 3 and counts[1] == 2:
+        return "Full House"
+    elif is_flush:
+        return "Flush"
+    elif is_straight:
+        return "Straight"
+    elif counts[0] == 3:
+        return "Three of a Kind"
+    elif counts[0] == 2 and counts[1] == 2:
+        return "Two Pair"
+    elif counts[0] == 2:
+        return "One Pair"
+    else:
+        return "High Card"
+
+
+
+
