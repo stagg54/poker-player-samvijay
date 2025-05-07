@@ -55,7 +55,7 @@ class Player:
             best_possible_rank = best_possible_hand_rank(game_state['community_cards'])
 
             rank_difference = best_possible_rank - rank
-            if rank_difference > 3:
+            if rank_difference > 4:
                 print(f"Hand difference too large ({rank_difference}), checking")
                 return self.check()
                 #match rank:
