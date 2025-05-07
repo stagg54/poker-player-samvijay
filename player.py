@@ -1,3 +1,5 @@
+import random
+
 class Player:
     VERSION = "TRENDING UPWARD"
     COUNTER=0
@@ -31,7 +33,7 @@ class Player:
                return self.check()
            if hole1["rank"] in high_cards or hole2["rank"] in high_cards or (hole1["suit"] == hole2["suit"]) or  abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) <= 2:
                print("high card or suited or ordered")
-               return self.bet(game_state)
+               return self.bet(game_state, random.randint(0, 100))
            else:
                print("neither")
                return self.check()
