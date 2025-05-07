@@ -16,7 +16,7 @@ class Player:
 
         match game_state["round"]:
             case 0: # Pre-flop
-               print("Round one")
+               print("Preflop")
                if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 1):
                    print("pocket pair or order suited")
                    return self.all_in(game_state)
@@ -26,14 +26,34 @@ class Player:
                else:
                     print("neither")
                     return self.check()
-            case 1: # Flop
+            case _: # Flop +
 
-                print("second round")
+                print("post_flop")
                 print(game_state["community_cards"])
                 print(hole1)
                 print(hole2)
                 hand = [ hole1, hole2, game_state["community_cards"] ]
                 print(hand)
+                ( result, _) = best_poker_hand(us['hole_cards'],game_state['community_cards'])
+                rank = result[0]
+                #match rank:
+
+                if rank >= 7: #Full house or better
+                    return self.all_in(game_state)
+                elif rank >= 3: #Two pair
+                    return self.bet(250)
+                elif rank >= 2:  # One pair or better
+                    return self.bet(100) # check for high pair
+                else:
+                    return self.check()
+
+
+                #hand_rank, best_hand = best_poker_hand(us['hole_cards'], game_state['community_cards'])
+                #print(f"Best hand rank: {hand_rank}")
+                #print(f"Best hand: {best_hand}")
+
+                # Get hand rank and cards
+
                 return self.check()
 
 
@@ -50,9 +70,7 @@ class Player:
 
 
 
-            case _:
-                print("not first round calling")
-                return self.match(game_state)
+
 
     @staticmethod
     def match(game_state):
@@ -83,6 +101,10 @@ class Player:
         pass
 
 
+import itertools
+from collections import Counter
+
+
 def rank_poker_hand(hand):
     rank_values = {
         '2': 2, '3': 3, '4': 4, '5': 5, '6': 6,
@@ -95,36 +117,57 @@ def rank_poker_hand(hand):
 
     is_flush = len(set(suits)) == 1
     is_straight = ranks == list(range(ranks[0], ranks[0] - 5, -1))
-    # Handle special case of low-Ace straight (A,2,3,4,5)
+    # Handle low-Ace straight
     if ranks == [14, 5, 4, 3, 2]:
         is_straight = True
         ranks = [5, 4, 3, 2, 1]
 
-    from collections import Counter
     rank_counts = Counter(ranks)
     counts = sorted(rank_counts.values(), reverse=True)
     unique_ranks = sorted(rank_counts.keys(), reverse=True)
 
+    # Assign a ranking tuple (higher is better)
     if is_straight and is_flush and ranks[0] == 14:
-        return "Royal Flush"
+        return (10, ranks)  # Royal Flush
     elif is_straight and is_flush:
-        return "Straight Flush"
+        return (9, ranks)  # Straight Flush
     elif counts[0] == 4:
-        return "Four of a Kind"
+        return (8, unique_ranks)  # Four of a Kind
     elif counts[0] == 3 and counts[1] == 2:
-        return "Full House"
+        return (7, unique_ranks)  # Full House
     elif is_flush:
-        return "Flush"
+        return (6, ranks)  # Flush
     elif is_straight:
-        return "Straight"
+        return (5, ranks)  # Straight
     elif counts[0] == 3:
-        return "Three of a Kind"
+        return (4, unique_ranks)  # Three of a Kind
     elif counts[0] == 2 and counts[1] == 2:
-        return "Two Pair"
+        return (3, unique_ranks)  # Two Pair
     elif counts[0] == 2:
-        return "One Pair"
+        return (2, unique_ranks)  # One Pair
     else:
-        return "High Card"
+        return (1, ranks)  # High Card
+
+
+def best_poker_hand(hole_cards, community_cards):
+    all_cards = hole_cards + community_cards
+    best_rank = (0, [])
+    best_hand = None
+
+    for combo in itertools.combinations(all_cards, 5):
+        # Ensure at least one hole card is included
+        if not any(card in hole_cards for card in combo):
+            continue
+        current_rank = rank_poker_hand(combo)
+        if current_rank > best_rank:
+            best_rank = current_rank
+            best_hand = combo
+
+    return best_rank, best_hand
+
+
+
+
 
 
 
