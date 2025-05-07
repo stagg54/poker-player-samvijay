@@ -1,5 +1,5 @@
 class Player:
-    VERSION = "call always"
+    VERSION = "TRENDING UPWARD"
     COUNTER=0
 
     def betRequest(self, game_state):
@@ -19,7 +19,7 @@ class Player:
         if game_state["community_cards"] == []:
            print("Preflop")
            if COUNTER > 4:
-               return self.check()
+               return self.match()
            else:
                COUNTER+=1
            if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 1):
@@ -48,7 +48,7 @@ class Player:
             elif rank >= 3: #Two pair
                 return self.bet(game_state, 250)
             elif rank >= 2:  # One pair or better
-                return self.bet(game_state, 100) # check for high pair
+                return self.match(game_state) # check for high pair
             else:
                 return self.check()
 
