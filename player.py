@@ -14,7 +14,7 @@ class Player:
         hole1=us['hole_cards'][0]
         hole2=us['hole_cards'][1]
 
-        match game_state["round"]:
+        match game_state["bet_index"]:
             case 0: # Pre-flop
                print("Preflop")
                if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 1):
@@ -37,7 +37,7 @@ class Player:
                 ( result, _) = best_poker_hand(us['hole_cards'],game_state['community_cards'])
                 rank = result[0]
                 #match rank:
-
+                # SamVijay was disqualified for making an error: Failed to parse players response as non negative integer. Response was:
                 if rank >= 7: #Full house or better
                     return self.all_in(game_state)
                 elif rank >= 3: #Two pair
