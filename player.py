@@ -37,14 +37,14 @@ class Player:
 
 
                 # Check if we have any pairs with the flop
-                community_cards = game_state.get('community_cards', [])
-                if len(community_cards) >= 3:
-                    # Count how many of our hole cards match the community cards
-                    matches = sum(1 for card in [hole1, hole2]
-                                if any(card["rank"] == comm["rank"] for comm in community_cards))
-                    if matches >= 1:  # We have at least a pair
-                        return self.bet(game_state)
-                return self.match(game_state)
+                # community_cards = game_state.get('community_cards', [])
+                # if len(community_cards) >= 3:
+                #     # Count how many of our hole cards match the community cards
+                #     matches = sum(1 for card in [hole1, hole2]
+                #                 if any(card["rank"] == comm["rank"] for comm in community_cards))
+                #     if matches >= 1:  # We have at least a pair
+                #         return self.bet(game_state)
+                # return self.match(game_state)
                 #return 0
 
 
