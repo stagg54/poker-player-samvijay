@@ -22,14 +22,14 @@ class Player:
                return self.match(game_state)
            else:
                COUNTER+=1
-           if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 2):
+           if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) <= 2):
 
                # should this AND be here? maybe not?
                print("pocket pair or order suited")
                return self.all_in(game_state)
            if game_state["current_buy_in"] >= us["stack"] and us["stack"]>100:
                return self.check()
-           if hole1["rank"] in high_cards or hole2["rank"] in high_cards or (hole1["suit"] == hole2["suit"]) or  abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 2:
+           if hole1["rank"] in high_cards or hole2["rank"] in high_cards or (hole1["suit"] == hole2["suit"]) or  abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) <= 2:
                print("high card or suited or ordered")
                return self.bet(game_state)
            else:
