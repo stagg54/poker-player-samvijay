@@ -1,7 +1,9 @@
 class Player:
     VERSION = "call always"
+    COUNTER=0
 
     def betRequest(self, game_state):
+        global COUNTER
         print(game_state)
         print("got here")
         in_action = game_state['in_action']
@@ -16,6 +18,10 @@ class Player:
 
         if game_state["community_cards"] == []:
            print("Preflop")
+           if COUNTER > 4:
+               return self.check()
+           else:
+               COUNTER+=1
            if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 1):
                print("pocket pair or order suited")
                return self.all_in(game_state)
@@ -97,7 +103,8 @@ class Player:
         return players[in_action]['stack']
 
     def showdown(self, game_state):
-        pass
+        global COUNTER
+        COUNTER=0
 
 
 import itertools
