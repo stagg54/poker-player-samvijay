@@ -20,10 +20,7 @@ class Player:
 
         if game_state["community_cards"] == []:
            print("Preflop")
-           if COUNTER > 4:
-               return self.match(game_state)
-           else:
-               COUNTER+=1
+
            if (hole1["rank"] == hole2["rank"]) or ((hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) <= 2) and (hole1["rank"] in high_cards or hole2["rank"] in high_cards) ):
 
                # should this AND be here? maybe not?
@@ -31,6 +28,10 @@ class Player:
                return self.all_in(game_state)
            if game_state["current_buy_in"] >= us["stack"] and us["stack"]>100:
                return self.check()
+           if COUNTER > 4:
+               return self.match(game_state)
+           else:
+               COUNTER+=1
            if hole1["rank"] in high_cards or hole2["rank"] in high_cards or (hole1["suit"] == hole2["suit"]) or  abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) <= 3:
                print("high card or suited or ordered")
                return self.bet(game_state, random.randint(0, 100))
