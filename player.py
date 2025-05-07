@@ -40,9 +40,9 @@ class Player:
             if rank >= 7: #Full house or better
                 return self.all_in(game_state)
             elif rank >= 3: #Two pair
-                return self.bet(250)
+                return self.bet(game_state, 250)
             elif rank >= 2:  # One pair or better
-                return self.bet(100) # check for high pair
+                return self.bet(game_state, 100) # check for high pair
             else:
                 return self.check()
 
