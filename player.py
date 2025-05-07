@@ -53,7 +53,7 @@ class Player:
 
                 # Get hand rank and cards
 
-            return self.check()
+        return self.check()
 
 
                 # Check if we have any pairs with the flop
@@ -84,7 +84,7 @@ class Player:
         current_buy_in = game_state['current_buy_in']
         players = game_state['players']
         minimum_raise = game_state["minimum_raise"]
-        return current_buy_in - players[in_action]['bet'] + minimum_raise + additional
+        return min(Player.all_in(game_state), current_buy_in - players[in_action]['bet'] + minimum_raise + additional)
 
     @staticmethod
     def check():
