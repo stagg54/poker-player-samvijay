@@ -49,13 +49,12 @@ curl -d 'action=bet_request&game_state={
             "hole_cards": [
                 {
 
-                    "rank": "4",
+                    "rank": "A",
 
-                    "suit": "hearts"
-                },
+                    "suit": "spades"                },
                 {
-                    "rank": "3",
-                    "suit": "hearts"
+                    "rank": "K",
+                    "suit": "clubs"
                 }
             ]
         },
@@ -70,18 +69,6 @@ curl -d 'action=bet_request&game_state={
     ],
 
     "community_cards": [
-        {
-            "rank": "4",
-            "suit": "spades"
-        },
-        {
-            "rank": "A",
-            "suit": "hearts"
-        },
-        {
-            "rank": "6",
-            "suit": "clubs"
-        }
     ]
 }
 ' localhost:9000

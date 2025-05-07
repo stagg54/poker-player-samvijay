@@ -14,38 +14,37 @@ class Player:
         hole1=us['hole_cards'][0]
         hole2=us['hole_cards'][1]
 
-        match game_state["community_cards"]:
-            case []: # Pre-flop
-               print("Preflop")
-               if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 1):
-                   print("pocket pair or order suited")
-                   return self.all_in(game_state)
-               if hole1["rank"] in high_cards or hole2["rank"] in high_cards or (hole1["suit"] == hole2["suit"]) or  abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 1:
-                   print("high card or suited or ordered")
-                   return self.bet(game_state)
-               else:
-                    print("neither")
-                    return self.check()
-            case _: # Flop +
+        if game_state["community_cards"] == []:
+           print("Preflop")
+           if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 1):
+               print("pocket pair or order suited")
+               return self.all_in(game_state)
+           if hole1["rank"] in high_cards or hole2["rank"] in high_cards or (hole1["suit"] == hole2["suit"]) or  abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 1:
+               print("high card or suited or ordered")
+               return self.bet(game_state)
+           else:
+               print("neither")
+               return self.check()
+        else: # Flop +
 
-                print("post_flop")
-                print(game_state["community_cards"])
-                print(hole1)
-                print(hole2)
-                hand = [ hole1, hole2, game_state["community_cards"] ]
-                print(hand)
-                ( result, _) = best_poker_hand(us['hole_cards'],game_state['community_cards'])
-                rank = result[0]
+            print("post_flop")
+            print(game_state["community_cards"])
+            print(hole1)
+            print(hole2)
+            hand = [ hole1, hole2, game_state["community_cards"] ]
+            print(hand)
+            ( result, _) = best_poker_hand(us['hole_cards'],game_state['community_cards'])
+            rank = result[0]
                 #match rank:
                 # SamVijay was disqualified for making an error: Failed to parse players response as non negative integer. Response was:
-                if rank >= 7: #Full house or better
-                    return self.all_in(game_state)
-                elif rank >= 3: #Two pair
-                    return self.bet(250)
-                elif rank >= 2:  # One pair or better
-                    return self.bet(100) # check for high pair
-                else:
-                    return self.check()
+            if rank >= 7: #Full house or better
+                return self.all_in(game_state)
+            elif rank >= 3: #Two pair
+                return self.bet(250)
+            elif rank >= 2:  # One pair or better
+                return self.bet(100) # check for high pair
+            else:
+                return self.check()
 
 
                 #hand_rank, best_hand = best_poker_hand(us['hole_cards'], game_state['community_cards'])
@@ -54,7 +53,7 @@ class Player:
 
                 # Get hand rank and cards
 
-                return self.check()
+            return self.check()
 
 
                 # Check if we have any pairs with the flop
