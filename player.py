@@ -14,8 +14,8 @@ class Player:
         hole1=us['hole_cards'][0]
         hole2=us['hole_cards'][1]
 
-        match game_state["bet_index"]:
-            case 0: # Pre-flop
+        match game_state["community_cards"]:
+            case []: # Pre-flop
                print("Preflop")
                if (hole1["rank"] == hole2["rank"]) or (hole1["suit"] == hole2["suit"] and abs(all_cards.index(hole1["rank"]) - all_cards.index(hole2["rank"])) == 1):
                    print("pocket pair or order suited")
